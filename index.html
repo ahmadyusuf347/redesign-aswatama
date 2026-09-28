@@ -1,0 +1,1736 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexova - Inspiring the Future of IT</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config untuk Warna -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "vernova-dark": "#041718",
+              "vernova-green": "#00E8A9",
+              "vernova-light": "#F4F7F6",
+              "footer-dark": "#1a1a1a",
+            },
+            fontFamily: {
+              display: ["Outfit", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* CSS Custom untuk animasi GSAP */
+      .hero-text-wrapper {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
+      .hero-line {
+        display: inline-block;
+        transform: translateY(110%);
+        opacity: 0;
+      }
+      .reveal-elem {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      .image-parallax-container {
+        overflow: hidden;
+      }
+      .image-parallax {
+        transform: scale(1.1);
+      }
+
+      /* Efek hover link navbar desktop */
+      .nav-link {
+        position: relative;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: #00e8a9;
+        transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* Dropdown logic Desktop */
+      .dropdown-menu {
+        display: none;
+      }
+      .group:hover .dropdown-menu {
+        display: block;
+      }
+      .dropdown-menu::before {
+        content: "";
+        position: absolute;
+        top: -20px;
+        left: 0;
+        width: 100%;
+        height: 20px;
+        background: transparent;
+      }
+
+      .sub-dropdown-menu {
+        display: none;
+      }
+      .group-sub:hover .sub-dropdown-menu {
+        display: block;
+      }
+      .sub-dropdown-menu::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -20px;
+        width: 20px;
+        height: 100%;
+        background: transparent;
+      }
+
+      /* Styling Slider / Grid Partner Responsive */
+      .partner-track {
+        display: grid;
+        grid-template-columns: repeat(
+          2,
+          minmax(0, 1fr)
+        ); /* Di HP: Jadi 2 kolom grid */
+        gap: 1rem;
+        width: 100%;
+        padding: 0 1rem;
+      }
+
+      .partner-logo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        background-color: #f9fafb;
+        border-radius: 0.5rem;
+        border: 1px solid #f3f4f6;
+      }
+
+      .partner-logo img {
+        max-height: 40px;
+        width: auto;
+        object-fit: contain;
+      }
+
+      /* Duplikasi logo khusus looping disembunyikan di HP */
+      .partner-logo.duplicate-logo {
+        display: none;
+      }
+
+      /* Tampilan Desktop (min-width: 1024px) - Kembali ke Marquee & Ukuran 20vw Awal */
+      @media (min-width: 1024px) {
+        .partner-track {
+          display: flex;
+          width: max-content;
+          padding: 0;
+          gap: 0;
+          animation: scrollPartners 40s linear infinite;
+        }
+
+        .partner-track:hover {
+          animation-play-state: paused;
+        }
+
+        .partner-logo {
+          width: 20vw; /* Ukuran persis seperti awal di Desktop */
+          background-color: transparent;
+          border: none;
+          padding: 0;
+        }
+
+        .partner-logo img {
+          max-height: 60px;
+        }
+
+        .partner-logo.duplicate-logo {
+          display: flex; /* Tampilkan kembali logo duplikat untuk looping di Desktop */
+        }
+      }
+
+      @keyframes scrollPartners {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* Efek hover Footer GE Vernova Style */
+      .footer-link {
+        position: relative;
+        display: inline-block;
+        transition:
+          transform 0.3s ease,
+          color 0.3s ease;
+        color: #d1d5db; /* text-gray-300 */
+      }
+      .footer-link::before {
+        content: "";
+        position: absolute;
+        left: -16px;
+        top: 50%;
+        transform: translateY(-50%) scale(0);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #00e8a9;
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+        opacity: 0;
+      }
+      .footer-link:hover {
+        color: #ffffff;
+        transform: translateX(16px);
+      }
+      .footer-link:hover::before {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+      }
+
+      html {
+        scroll-behavior: smooth; /* Membuat efek scroll menjadi halus */
+        scroll-padding-top: 140px; /* Sesuaikan dengan tinggi navbar melayang Anda */
+      }
+    </style>
+  </head>
+  <body class="bg-white text-vernova-dark font-body overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav
+      id="navbar"
+      class="fixed w-full z-50 top-0 transition-all duration-300 px-6 lg:px-12 bg-gradient-to-b from-black/80 to-transparent"
+    >
+      <div
+        class="flex justify-between items-center w-full max-w-[1400px] mx-auto py-6 relative z-50"
+      >
+        <!-- Bagian Kiri: Logo -->
+        <div class="flex items-center gap-6 lg:gap-8">
+          <a href="#" class="flex items-center gap-2">
+            <div class="flex items-center justify-center w-[150px]">
+              <img src="/Logo partners 2/Aswatama_Logo2.png" alt="" />
+            </div>
+          </a>
+        </div>
+
+        <!-- Desktop Links & CTA -->
+        <div class="hidden lg:flex items-center space-x-8">
+          <a
+            href="#"
+            class="nav-link text-sm font-medium tracking-wide text-white uppercase"
+            >Home</a
+          >
+          <a
+            href="#about-us"
+            class="nav-link text-sm font-medium tracking-wide text-white uppercase"
+            >About Us</a
+          >
+
+          <!-- Dropdown Product -->
+          <div class="relative group py-2">
+            <button
+              class="nav-link text-sm font-medium tracking-wide text-white uppercase flex items-center gap-1"
+            >
+              Product <i class="bi bi-chevron-down text-[10px]"></i>
+            </button>
+            <div
+              class="absolute left-0 mt-4 w-64 bg-vernova-dark border border-white/10 shadow-2xl dropdown-menu"
+            >
+              <div class="relative group-sub">
+                <button
+                  class="w-full text-left px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5 flex justify-between items-center"
+                >
+                  IT Infrastructure
+                  <i class="bi bi-chevron-right text-[10px]"></i>
+                </button>
+                <div
+                  class="absolute left-full top-0 w-48 bg-vernova-dark border border-white/10 shadow-2xl sub-dropdown-menu"
+                >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >Server</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >Storage</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >Network</a
+                  >
+                </div>
+              </div>
+              <div class="relative group-sub">
+                <button
+                  class="w-full text-left px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5 flex justify-between items-center"
+                >
+                  DC Facilities <i class="bi bi-chevron-right text-[10px]"></i>
+                </button>
+                <div
+                  class="absolute left-full top-0 w-48 bg-vernova-dark border border-white/10 shadow-2xl sub-dropdown-menu"
+                >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >Containment</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >UPS</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >PAC</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >Cabling</a
+                  >
+                </div>
+              </div>
+              <div class="relative group-sub">
+                <button
+                  class="w-full text-left px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5 flex justify-between items-center"
+                >
+                  Security <i class="bi bi-chevron-right text-[10px]"></i>
+                </button>
+                <div
+                  class="absolute left-full top-0 w-48 bg-vernova-dark border border-white/10 shadow-2xl sub-dropdown-menu"
+                >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >Firewall</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >UTM</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >Anti Ddos</a
+                  >
+                </div>
+              </div>
+              <a
+                href="#"
+                class="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                >Monitoring & Observability</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                >Cloud</a
+              >
+            </div>
+          </div>
+
+          <!-- Dropdown Service -->
+          <div class="relative group py-2">
+            <button
+              class="nav-link text-sm font-medium tracking-wide text-white uppercase flex items-center gap-1"
+            >
+              Service <i class="bi bi-chevron-down text-[10px]"></i>
+            </button>
+            <div
+              class="absolute left-0 mt-4 w-60 bg-vernova-dark border border-white/10 shadow-2xl dropdown-menu"
+            >
+              <a
+                href="#"
+                class="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                >Installation & Config</a
+              >
+              <div class="relative group-sub">
+                <button
+                  class="w-full text-left px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5 flex justify-between items-center"
+                >
+                  Maintenance <i class="bi bi-chevron-right text-[10px]"></i>
+                </button>
+                <div
+                  class="absolute left-full top-0 w-56 bg-vernova-dark border border-white/10 shadow-2xl sub-dropdown-menu"
+                >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >Preventive Maintenance</a
+                  >
+                  <a
+                    href="#"
+                    class="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5"
+                    >Corrective Maintenance</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a
+            href="#"
+            class="nav-link text-sm font-medium tracking-wide text-white uppercase"
+            >Partners</a
+          >
+          <a
+            href="#"
+            class="nav-link text-sm font-medium tracking-wide text-white uppercase"
+            >Our Customers</a
+          >
+
+          <a
+            href="#"
+            class="bg-[#0071bc] text-vernova-dark px-6 py-2.5 rounded-full font-bold uppercase tracking-wider text-xs hover:bg-white transition-colors duration-300 whitespace-nowrap"
+          >
+            Let's Talk
+          </a>
+        </div>
+
+        <!-- Burger Menu Button (Mobile) -->
+        <div class="flex items-center lg:hidden relative z-50">
+          <button id="mobile-btn" class="text-white focus:outline-none p-1">
+            <i class="bi bi-list text-4xl"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Fullscreen Menu Overlay -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 w-full h-screen bg-vernova-dark z-[100] transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col"
+    >
+      <div
+        class="flex justify-between items-center w-full py-6 px-6 lg:px-12 border-b border-white/10 shrink-0"
+      >
+        <a href="#" class="flex items-center gap-2">
+          <div class="w-[150px] flex items-center justify-center">
+            <img src="/Logo partners 2/Aswatama_Logo2.png" alt="" />
+          </div>
+          >
+        </a>
+        <button id="mobile-close" class="text-white focus:outline-none p-1">
+          <i class="bi bi-x text-4xl"></i>
+        </button>
+      </div>
+
+      <div
+        class="flex-grow flex flex-col justify-start space-y-6 overflow-y-auto px-10 pb-8 pt-8"
+      >
+        <a
+          href="#"
+          class="text-2xl font-display font-medium tracking-wide text-white uppercase hover:text-vernova-green transition-colors"
+          >Home</a
+        >
+        <a
+          href="#about"
+          class="text-2xl font-display font-medium tracking-wide text-white uppercase hover:text-vernova-green transition-colors"
+          >About Us</a
+        >
+
+        <!-- Mobile Dropdown: Product -->
+        <div class="w-full">
+          <button
+            class="mobile-dropdown-btn w-full text-left text-2xl font-display font-medium tracking-wide text-white uppercase hover:text-vernova-green transition-colors flex justify-between items-center"
+          >
+            Product
+            <i
+              class="bi bi-chevron-down text-xl transition-transform duration-300"
+            ></i>
+          </button>
+          <div
+            class="mobile-dropdown-content hidden flex-col pl-4 mt-4 space-y-4 border-l border-white/20"
+          >
+            <div>
+              <button
+                class="mobile-dropdown-btn w-full text-left text-lg font-display text-gray-300 hover:text-white transition-colors flex justify-between items-center"
+              >
+                IT Infrastructure
+                <i
+                  class="bi bi-chevron-down text-base transition-transform duration-300"
+                ></i>
+              </button>
+              <div
+                class="mobile-dropdown-content hidden flex-col pl-4 mt-3 space-y-3 border-l border-white/20"
+              >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >Server</a
+                >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >Storage</a
+                >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >Network</a
+                >
+              </div>
+            </div>
+            <div>
+              <button
+                class="mobile-dropdown-btn w-full text-left text-lg font-display text-gray-300 hover:text-white transition-colors flex justify-between items-center"
+              >
+                DC Facilities
+                <i
+                  class="bi bi-chevron-down text-base transition-transform duration-300"
+                ></i>
+              </button>
+              <div
+                class="mobile-dropdown-content hidden flex-col pl-4 mt-3 space-y-3 border-l border-white/20"
+              >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >Containment</a
+                >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >UPS</a
+                >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >PAC</a
+                >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >Cabling</a
+                >
+              </div>
+            </div>
+            <div>
+              <button
+                class="mobile-dropdown-btn w-full text-left text-lg font-display text-gray-300 hover:text-white transition-colors flex justify-between items-center"
+              >
+                Security
+                <i
+                  class="bi bi-chevron-down text-base transition-transform duration-300"
+                ></i>
+              </button>
+              <div
+                class="mobile-dropdown-content hidden flex-col pl-4 mt-3 space-y-3 border-l border-white/20"
+              >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >Firewall</a
+                >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >UTM</a
+                >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >Anti Ddos</a
+                >
+              </div>
+            </div>
+            <a
+              href="#"
+              class="text-lg font-display text-gray-300 hover:text-white block transition-colors"
+              >Monitoring & Observability</a
+            >
+            <a
+              href="#"
+              class="text-lg font-display text-gray-300 hover:text-white block transition-colors"
+              >Cloud</a
+            >
+          </div>
+        </div>
+
+        <!-- Mobile Dropdown: Service -->
+        <div class="w-full">
+          <button
+            class="mobile-dropdown-btn w-full text-left text-2xl font-display font-medium tracking-wide text-white uppercase hover:text-vernova-green transition-colors flex justify-between items-center"
+          >
+            Service
+            <i
+              class="bi bi-chevron-down text-xl transition-transform duration-300"
+            ></i>
+          </button>
+          <div
+            class="mobile-dropdown-content hidden flex-col pl-4 mt-4 space-y-4 border-l border-white/20"
+          >
+            <a
+              href="#"
+              class="text-lg font-display text-gray-300 hover:text-white block transition-colors"
+              >Installation & Config</a
+            >
+            <div>
+              <button
+                class="mobile-dropdown-btn w-full text-left text-lg font-display text-gray-300 hover:text-white transition-colors flex justify-between items-center"
+              >
+                Maintenance
+                <i
+                  class="bi bi-chevron-down text-base transition-transform duration-300"
+                ></i>
+              </button>
+              <div
+                class="mobile-dropdown-content hidden flex-col pl-4 mt-3 space-y-3 border-l border-white/20"
+              >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >Preventive Maintenance</a
+                >
+                <a
+                  href="#"
+                  class="text-base text-gray-400 hover:text-vernova-green transition-colors"
+                  >Corrective Maintenance</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a
+          href="#"
+          class="text-2xl font-display font-medium tracking-wide text-white uppercase hover:text-vernova-green transition-colors"
+          >Partners</a
+        >
+        <a
+          href="#"
+          class="text-2xl font-display font-medium tracking-wide text-white uppercase hover:text-vernova-green transition-colors"
+          >Our Customers</a
+        >
+
+        <div
+          class="mt-8 border-t border-white/10 pt-8 w-full max-w-xs shrink-0"
+        >
+          <a
+            href="#"
+            class="block text-center bg-[#0071bc] text-vernova-dark px-6 py-4 rounded-full font-bold uppercase tracking-wider text-sm hover:bg-white transition-colors duration-300"
+          >
+            Let's Talk
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section
+      class="relative h-screen min-h-[700px] flex items-end pb-24 lg:pb-32 px-6 lg:px-12"
+    >
+      <div class="absolute inset-0 z-0 image-parallax-container">
+        <img
+          src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop"
+          alt="Hero Background"
+          class="image-parallax w-full h-full object-cover opacity-60"
+          id="hero-img"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-vernova-dark via-vernova-dark/60 to-transparent"
+        ></div>
+      </div>
+      <div class="relative z-10 w-full max-w-[1400px] mx-auto">
+        <div class="mb-4 overflow-hidden hero-text-wrapper">
+          <span
+            class="hero-line text-vernova-green font-display font-medium tracking-widest uppercase text-sm lg:text-base block mb-2"
+            >Advancing Digital Transformation</span
+          >
+        </div>
+        <h1
+          class="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight mb-10 max-w-5xl text-white"
+        >
+          <div class="overflow-hidden hero-text-wrapper">
+            <span class="hero-line">The technology to</span>
+          </div>
+          <div class="overflow-hidden hero-text-wrapper">
+            <span class="hero-line">change the world.</span>
+          </div>
+        </h1>
+        <div class="overflow-hidden hero-text-wrapper pt-4">
+          <a
+            href="#"
+            class="hero-line group relative inline-flex items-center justify-center pl-8 pr-2.5 py-2.5 overflow-hidden rounded-full border border-white text-white font-bold uppercase tracking-wider text-sm transition-all duration-500"
+          >
+            <span
+              class="absolute left-0 top-0 w-0 h-full bg-white transition-all duration-500 ease-out group-hover:w-full z-0"
+            ></span>
+            <span
+              class="relative z-10 transition-colors duration-500 group-hover:text-vernova-dark mr-6"
+              >Get A Quote</span
+            >
+            <span
+              class="relative z-10 flex items-center justify-center w-11 h-11 rounded-full bg-[#0071bc] text-vernova-dark transition-transform duration-500 ease-out transform group-hover:translate-x-1"
+            >
+              <i class="bi bi-arrow-right text-xl"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRODUCTION / ASWATAMA CONTENT SECTION -->
+    <section
+      class="py-24 lg:py-32 px-6 lg:px-12 bg-vernova-light text-vernova-dark"
+    >
+      <div id="about-us" class="w-full max-w-[1400px] mx-auto space-y-24">
+        <!-- Header & Executive Summary -->
+        <div
+          class="flex flex-col lg:flex-row justify-between items-start gap-12 border-b border-gray-200 pb-16"
+        >
+          <div class="lg:w-1/3">
+            <span
+              class="bg-vernova-green/20 text-vernova-dark px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase inline-block mb-4 reveal-elem"
+            >
+              Executive Summary
+            </span>
+            <h2
+              class="font-display text-4xl lg:text-5xl font-bold leading-tight reveal-elem"
+            >
+              A New Era of IT Solution Provider
+            </h2>
+            <div class="w-16 h-1 bg-vernova-green mt-6 reveal-elem"></div>
+          </div>
+
+          <div class="lg:w-2/3 space-y-8">
+            <p
+              class="font-display text-2xl lg:text-3xl leading-relaxed text-gray-800 font-medium reveal-elem"
+            >
+              We focus as an
+              <span class="text-[#00A376]">IT System Integrator</span> that
+              provides end-to-end solutions, driving business performance
+              through continuous innovation and enterprise-grade support.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 reveal-elem">
+              <!-- Company Background -->
+              <div
+                class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-vernova-green/10 text-vernova-dark flex items-center justify-center mb-4"
+                >
+                  <i class="bi bi-building text-xl"></i>
+                </div>
+                <h4 class="font-display font-bold text-lg mb-2">
+                  Company Background
+                </h4>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                  A company focused on being an IT System Integrator, providing
+                  customers with complete end-to-end solutions.
+                </p>
+              </div>
+
+              <!-- Company Products -->
+              <div
+                class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-vernova-green/10 text-vernova-dark flex items-center justify-center mb-4"
+                >
+                  <i class="bi bi-box-seam text-xl"></i>
+                </div>
+                <h4 class="font-display font-bold text-lg mb-2">
+                  Company Products
+                </h4>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                  Provide Application Software, Data Management, Hardware
+                  Infrastructure, Security System, and Process Management.
+                </p>
+              </div>
+
+              <!-- Company Service -->
+              <div
+                class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-vernova-green/10 text-vernova-dark flex items-center justify-center mb-4"
+                >
+                  <i class="bi bi-gear-wide-connected text-xl"></i>
+                </div>
+                <h4 class="font-display font-bold text-lg mb-2">
+                  Company Services
+                </h4>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                  Provide Consultancy Services, Implementation, Technical
+                  Support, Outsourcing, and Managed Services.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Business Driven -->
+        <div
+          class="bg-vernova-dark text-white rounded-3xl p-8 lg:p-16 relative overflow-hidden reveal-elem shadow-2xl"
+        >
+          <div
+            class="absolute -right-16 -bottom-16 w-80 h-80 rounded-full bg-vernova-green/10 blur-3xl pointer-events-none"
+          ></div>
+          <div
+            class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+          >
+            <div class="lg:col-span-5">
+              <span
+                class="text-vernova-green font-display font-medium tracking-widest uppercase text-xs block mb-3"
+              >
+                Value Proposition
+              </span>
+              <h3 class="font-display text-3xl lg:text-4xl font-bold">
+                Business Driven
+              </h3>
+            </div>
+            <div class="lg:col-span-7">
+              <p class="text-gray-300 text-lg leading-relaxed">
+                We improve performance and service quality by diversifying
+                products and innovations. With the current trend where
+                enterprises need IT to support their core business, we meet the
+                growing demand for reliable IT Products and Services by
+                delivering best-in-class solutions based on open systems with
+                professional engineers.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vision and Mission Section -->
+        <div class="space-y-12 reveal-elem">
+          <div class="text-center max-w-2xl mx-auto">
+            <span
+              class="bg-vernova-green/20 text-vernova-dark px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase inline-block mb-3"
+            >
+              Strategic Foundation
+            </span>
+            <h3 class="font-display text-3xl lg:text-4xl font-bold">
+              Our Vision and Mission
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Vision Card -->
+            <div
+              class="bg-white p-8 lg:p-10 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between hover:border-vernova-green/50 transition-colors"
+            >
+              <div>
+                <div
+                  class="w-12 h-12 rounded-xl bg-vernova-dark text-vernova-green flex items-center justify-center mb-6"
+                >
+                  <i class="bi bi-eye text-2xl"></i>
+                </div>
+                <h4
+                  class="font-display font-bold text-2xl text-vernova-dark mb-4"
+                >
+                  Our Vision
+                </h4>
+                <p class="text-gray-600 leading-relaxed text-base">
+                  Become a leading IT company in Indonesia and the region,
+                  recognized as the best partner in providing information
+                  technology services to customers.
+                </p>
+              </div>
+            </div>
+
+            <!-- Mission Card -->
+            <div
+              class="bg-white p-8 lg:p-8 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between hover:border-vernova-green/50 transition-colors"
+            >
+              <div>
+                <div
+                  class="w-12 h-12 rounded-xl bg-vernova-dark text-vernova-green flex items-center justify-center mb-6"
+                >
+                  <i class="bi bi-rocket-takeoff text-2xl"></i>
+                </div>
+                <h4
+                  class="font-display font-bold text-2xl text-vernova-dark mb-4"
+                >
+                  Our Mission
+                </h4>
+                <ul class="space-y-4 text-gray-600 text-sm">
+                  <li class="flex items-start gap-3">
+                    <i
+                      class="bi bi-check-circle-fill text-vernova-green text-lg shrink-0 mt-0.5"
+                    ></i>
+                    <span
+                      >The best place to work, develop careers, and grow for all
+                      employees guided by corporate values:
+                      <strong
+                        >Professionalism, Integrity, Teamwork, Excellence, and
+                        Respect</strong
+                      >.</span
+                    >
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <i
+                      class="bi bi-check-circle-fill text-vernova-green text-lg shrink-0 mt-0.5"
+                    ></i>
+                    <span
+                      >Provide maximum benefits to all stakeholders including
+                      customers, principals, shareholders, and employees.</span
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUR PRODUCTS SECTION -->
+    <section class="bg-white py-32 px-6 lg:px-12 text-vernova-dark">
+      <div class="w-full max-w-[1400px] mx-auto">
+        <div
+          class="flex justify-between items-end mb-16 reveal-elem border-b border-gray-200 pb-6"
+        >
+          <h2 class="font-display text-4xl lg:text-5xl font-bold">
+            Our Products
+          </h2>
+          <a
+            href="#"
+            class="hidden md:flex items-center gap-2 text-vernova-green hover:text-vernova-dark transition-colors font-medium tracking-wide uppercase text-sm"
+          >
+            View all products <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <a
+            href="#"
+            class="group block relative h-[500px] overflow-hidden reveal-elem"
+          >
+            <div class="absolute inset-0 image-parallax-container">
+              <img
+                src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                alt="Cloud"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-vernova-dark via-vernova-dark/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"
+              ></div>
+            </div>
+            <div class="absolute bottom-0 left-0 p-8 w-full">
+              <div
+                class="w-10 h-10 rounded-full border border-vernova-green flex items-center justify-center mb-6 group-hover:bg-vernova-green group-hover:text-vernova-dark transition-colors text-vernova-green"
+              >
+                <i class="bi bi-cloud-arrow-up text-xl"></i>
+              </div>
+              <h3 class="font-display text-3xl font-bold mb-3 text-white">
+                Cloud Systems
+              </h3>
+              <p
+                class="text-gray-300 text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+              >
+                Scalable cloud architectures built for enterprise-level
+                performance and sustainability.
+              </p>
+            </div>
+          </a>
+
+          <a
+            href="#"
+            class="group block relative h-[500px] overflow-hidden reveal-elem"
+            style="transition-delay: 100ms"
+          >
+            <div class="absolute inset-0 image-parallax-container">
+              <img
+                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                alt="Cyber"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-vernova-dark via-vernova-dark/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"
+              ></div>
+            </div>
+            <div class="absolute bottom-0 left-0 p-8 w-full">
+              <div
+                class="w-10 h-10 rounded-full border border-vernova-green flex items-center justify-center mb-6 group-hover:bg-vernova-green group-hover:text-vernova-dark transition-colors text-vernova-green"
+              >
+                <i class="bi bi-shield-check text-xl"></i>
+              </div>
+              <h3 class="font-display text-3xl font-bold mb-3 text-white">
+                Cyber Defense
+              </h3>
+              <p
+                class="text-gray-300 text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+              >
+                Advanced threat detection and zero-trust security frameworks for
+                global operations.
+              </p>
+            </div>
+          </a>
+
+          <a
+            href="#"
+            class="group block relative h-[500px] overflow-hidden reveal-elem"
+            style="transition-delay: 200ms"
+          >
+            <div class="absolute inset-0 image-parallax-container">
+              <img
+                src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                alt="Data"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-vernova-dark via-vernova-dark/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"
+              ></div>
+            </div>
+            <div class="absolute bottom-0 left-0 p-8 w-full">
+              <div
+                class="w-10 h-10 rounded-full border border-vernova-green flex items-center justify-center mb-6 group-hover:bg-vernova-green group-hover:text-vernova-dark transition-colors text-vernova-green"
+              >
+                <i class="bi bi-cpu text-xl"></i>
+              </div>
+              <h3 class="font-display text-3xl font-bold mb-3 text-white">
+                AI & Analytics
+              </h3>
+              <p
+                class="text-gray-300 text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+              >
+                Harness the power of machine learning to drive efficiency and
+                predictive maintenance.
+              </p>
+            </div>
+          </a>
+
+          <a
+            href="#"
+            class="group block relative h-[500px] overflow-hidden reveal-elem"
+            style="transition-delay: 300ms"
+          >
+            <div class="absolute inset-0 image-parallax-container">
+              <img
+                src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                alt="IT Infra"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-vernova-dark via-vernova-dark/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"
+              ></div>
+            </div>
+            <div class="absolute bottom-0 left-0 p-8 w-full">
+              <div
+                class="w-10 h-10 rounded-full border border-vernova-green flex items-center justify-center mb-6 group-hover:bg-vernova-green group-hover:text-vernova-dark transition-colors text-vernova-green"
+              >
+                <i class="bi bi-hdd-network text-xl"></i>
+              </div>
+              <h3 class="font-display text-3xl font-bold mb-3 text-white">
+                IT Infrastructure
+              </h3>
+              <p
+                class="text-gray-300 text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+              >
+                Robust server and networking solutions tailored for
+                virtualization and heavy enterprise workloads.
+              </p>
+            </div>
+          </a>
+
+          <a
+            href="#"
+            class="group block relative h-[500px] overflow-hidden reveal-elem"
+            style="transition-delay: 400ms"
+          >
+            <div class="absolute inset-0 image-parallax-container">
+              <img
+                src="https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=1974&auto=format&fit=crop"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                alt="DC Facilities"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-vernova-dark via-vernova-dark/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"
+              ></div>
+            </div>
+            <div class="absolute bottom-0 left-0 p-8 w-full">
+              <div
+                class="w-10 h-10 rounded-full border border-vernova-green flex items-center justify-center mb-6 group-hover:bg-vernova-green group-hover:text-vernova-dark transition-colors text-vernova-green"
+              >
+                <i class="bi bi-fan text-xl"></i>
+              </div>
+              <h3 class="font-display text-3xl font-bold mb-3 text-white">
+                DC Facilities
+              </h3>
+              <p
+                class="text-gray-300 text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+              >
+                Precision UPS and PAC systems to maintain critical data center
+                performance and uptime.
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUR SERVICES SECTION -->
+    <section
+      class="py-32 px-6 lg:px-12 bg-vernova-light text-vernova-dark relative"
+    >
+      <div class="w-full max-w-[1400px] mx-auto relative z-10">
+        <!-- Header / Title -->
+        <div class="text-center mb-20 reveal-elem">
+          <span
+            class="bg-vernova-green/20 text-vernova-dark px-4 py-1.5 rounded-full text-[10px] font-bold tracking-widest uppercase mb-6 inline-block"
+          >
+            Our Services
+          </span>
+          <h2
+            class="font-display text-4xl md:text-5xl font-bold mb-6 max-w-3xl mx-auto leading-tight"
+          >
+            We provide the world's most successful IT solutions with trust
+          </h2>
+          <p class="text-gray-500 max-w-2xl mx-auto">
+            We craft unique digital infrastructures. With deep technical
+            knowledge and enterprise expertise, we build, manage, and optimize
+            your IT ecosystems.
+          </p>
+        </div>
+
+        <!-- Service Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="group relative bg-white p-10 lg:p-12 overflow-hidden transition-all duration-500 shadow-sm hover:shadow-2xl reveal-elem border border-gray-200 min-h-[400px] flex flex-col"
+          >
+            <div
+              class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=800&auto=format&fit=crop"
+                class="w-full h-full object-cover"
+                alt="Installation"
+              />
+              <div class="absolute inset-0 bg-vernova-dark/90"></div>
+            </div>
+            <div class="relative z-10 flex flex-col h-full">
+              <div
+                class="mb-6 text-vernova-dark group-hover:text-white transition-colors duration-500"
+              >
+                <i class="bi bi-tools text-4xl"></i>
+              </div>
+              <h3
+                class="font-display text-2xl font-bold mb-4 text-vernova-dark group-hover:text-white transition-colors duration-500"
+              >
+                Installation & Config
+              </h3>
+              <p
+                class="text-gray-500 group-hover:text-gray-300 mb-8 transition-colors duration-500 leading-relaxed text-sm"
+              >
+                Professional deployment, precision network configuration, and
+                staging to ensure your ecosystems operate efficiently.
+              </p>
+              <div class="mt-auto">
+                <a
+                  href="#"
+                  class="inline-flex items-center text-xs font-bold uppercase tracking-widest text-vernova-dark group-hover:text-white transition-colors duration-500"
+                >
+                  <span
+                    class="w-0 group-hover:w-8 h-[2px] bg-white transition-all duration-500 mr-0 group-hover:mr-3"
+                  ></span>
+                  READ MORE
+                  <span
+                    class="w-8 group-hover:w-0 h-[2px] bg-vernova-dark transition-all duration-500 ml-3 group-hover:ml-0"
+                  ></span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="group relative bg-white p-10 lg:p-12 overflow-hidden transition-all duration-500 shadow-sm hover:shadow-2xl reveal-elem border border-gray-200 min-h-[400px] flex flex-col"
+            style="transition-delay: 100ms"
+          >
+            <div
+              class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop"
+                class="w-full h-full object-cover"
+                alt="Maintenance"
+              />
+              <div class="absolute inset-0 bg-vernova-dark/90"></div>
+            </div>
+            <div class="relative z-10 flex flex-col h-full">
+              <div
+                class="mb-6 text-vernova-dark group-hover:text-white transition-colors duration-500"
+              >
+                <i class="bi bi-shield-check text-4xl"></i>
+              </div>
+              <h3
+                class="font-display text-2xl font-bold mb-4 text-vernova-dark group-hover:text-white transition-colors duration-500"
+              >
+                Preventive Maintenance
+              </h3>
+              <p
+                class="text-gray-500 group-hover:text-gray-300 mb-8 transition-colors duration-500 leading-relaxed text-sm"
+              >
+                Scheduled proactive audits, firmware updates, and environmental
+                checks to prevent sudden hardware failures and downtime.
+              </p>
+              <div class="mt-auto">
+                <a
+                  href="#"
+                  class="inline-flex items-center text-xs font-bold uppercase tracking-widest text-vernova-dark group-hover:text-white transition-colors duration-500"
+                >
+                  <span
+                    class="w-0 group-hover:w-8 h-[2px] bg-white transition-all duration-500 mr-0 group-hover:mr-3"
+                  ></span>
+                  READ MORE
+                  <span
+                    class="w-8 group-hover:w-0 h-[2px] bg-vernova-dark transition-all duration-500 ml-3 group-hover:ml-0"
+                  ></span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="group relative bg-white p-10 lg:p-12 overflow-hidden transition-all duration-500 shadow-sm hover:shadow-2xl reveal-elem border border-gray-200 min-h-[400px] flex flex-col"
+            style="transition-delay: 200ms"
+          >
+            <div
+              class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop"
+                class="w-full h-full object-cover"
+                alt="Corrective"
+              />
+              <div class="absolute inset-0 bg-vernova-dark/90"></div>
+            </div>
+            <div class="relative z-10 flex flex-col h-full">
+              <div
+                class="mb-6 text-vernova-dark group-hover:text-white transition-colors duration-500"
+              >
+                <i class="bi bi-wrench-adjustable text-4xl"></i>
+              </div>
+              <h3
+                class="font-display text-2xl font-bold mb-4 text-vernova-dark group-hover:text-white transition-colors duration-500"
+              >
+                Corrective Maintenance
+              </h3>
+              <p
+                class="text-gray-500 group-hover:text-gray-300 mb-8 transition-colors duration-500 leading-relaxed text-sm"
+              >
+                Rapid response troubleshooting and precise part replacements
+                ensuring fast restoration of your critical daily operations.
+              </p>
+              <div class="mt-auto">
+                <a
+                  href="#"
+                  class="inline-flex items-center text-xs font-bold uppercase tracking-widest text-vernova-dark group-hover:text-white transition-colors duration-500"
+                >
+                  <span
+                    class="w-0 group-hover:w-8 h-[2px] bg-white transition-all duration-500 mr-0 group-hover:mr-3"
+                  ></span>
+                  READ MORE
+                  <span
+                    class="w-8 group-hover:w-0 h-[2px] bg-vernova-dark transition-all duration-500 ml-3 group-hover:ml-0"
+                  ></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUR PARTNERS SECTION -->
+    <section
+      class="bg-white pt-32 pb-24 border-b border-gray-200 overflow-hidden"
+    >
+      <div
+        class="w-full max-w-[1400px] mx-auto text-center px-6 lg:px-12 mb-16"
+      >
+        <h2
+          class="font-display text-4xl lg:text-5xl font-bold reveal-elem text-vernova-dark"
+        >
+          Our Partners
+        </h2>
+      </div>
+
+      <!-- Wadah Slider (Marquee Desktop / Grid 2 Kolom Mobile) -->
+      <div class="relative w-full overflow-hidden flex pb-12 reveal-elem">
+        <div class="partner-track">
+          <!-- Main Partners -->
+          <div class="partner-logo">
+            <img src="Logo partners 2/cisco.svg" alt="Cisco" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/hpe.svg" alt="HPE" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/aws.svg" alt="AWS" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/checkpoint.svg" alt="Check Point" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/dell.svg" alt="Dell" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/eaton.svg" alt="Eaton" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/f5.svg" alt="F5" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/fortinet.svg" alt="Fortinet" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/lenovo.svg" alt="Lenovo" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/microsoft.svg" alt="Microsoft" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/oracle.svg" alt="Oracle" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/palo-alto.svg" alt="Palo Alto" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/redhat.svg" alt="Red Hat" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/rubrik.svg" alt="Rubrik" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/sap.svg" alt="SAP" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/vertiv.svg" alt="Vertiv" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/apc.svg" alt="APC" />
+          </div>
+          <div class="partner-logo">
+            <img src="Logo partners 2/dellemc.svg" alt="Dell EMC" />
+          </div>
+
+          <!-- DUPLIKASI UNTUK LOOPING ANIMASI DESKTOP -->
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/cisco.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/hpe.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/aws.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/checkpoint.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/dell.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/eaton.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/f5.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/fortinet.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/lenovo.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/microsoft.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/oracle.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/palo-alto.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/redhat.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/rubrik.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/sap.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/vertiv.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/apc.svg" alt="" />
+          </div>
+          <div class="partner-logo duplicate-logo">
+            <img src="Logo partners 2/dellemc.svg" alt="" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUR CUSTOMERS SECTION -->
+    <section class="py-32 bg-vernova-light text-vernova-dark relative">
+      <div class="w-full max-w-5xl mx-auto relative px-6 lg:px-12">
+        <div class="text-center mb-16 reveal-elem">
+          <h2
+            class="font-display text-4xl md:text-5xl font-bold text-vernova-dark mb-4"
+          >
+            Clients we are proud of
+          </h2>
+          <p class="text-gray-500 max-w-2xl mx-auto">
+            We are proud to collaborate with industry-leading companies and
+            organizations to drive their digital transformation forward.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 reveal-elem">
+          <div
+            class="bg-white border border-gray-100 shadow-sm flex items-center justify-center h-28 lg:h-36 px-6 hover:shadow-md transition-shadow duration-300 rounded-sm"
+          >
+            <img src="customers/Logo Partners.png" alt="" />
+          </div>
+          <div
+            class="bg-white border border-gray-100 shadow-sm flex items-center justify-center h-28 lg:h-36 px-6 hover:shadow-md transition-shadow duration-300 rounded-sm"
+          >
+            <img src="customers/customers-26.svg" alt="" />
+          </div>
+          <div
+            class="bg-white border border-gray-100 shadow-sm flex items-center justify-center h-28 lg:h-36 px-6 hover:shadow-md transition-shadow duration-300 rounded-sm"
+          >
+            <img src="customers/customers-27.svg" alt="" />
+          </div>
+          <div
+            class="bg-white border border-gray-100 shadow-sm flex items-center justify-center h-28 lg:h-36 px-6 hover:shadow-md transition-shadow duration-300 rounded-sm"
+          >
+            <img src="customers/customers-28.svg" alt="" />
+          </div>
+          <div
+            class="bg-white border border-gray-100 shadow-sm flex items-center justify-center h-28 lg:h-36 px-6 hover:shadow-md transition-shadow duration-300 rounded-sm"
+          >
+            <img src="customers/customers-29.svg" alt="" />
+          </div>
+          <div
+            class="bg-white border border-gray-100 shadow-sm flex items-center justify-center h-28 lg:h-36 px-6 hover:shadow-md transition-shadow duration-300 rounded-sm"
+          >
+            <img src="customers/customers-30.svg" alt="" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      class="bg-footer-dark pt-16 pb-8 text-gray-300 font-body relative border-t-2 border-[#333]"
+    >
+      <div class="w-full max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div class="flex flex-col lg:flex-row mb-16">
+          <div
+            class="lg:w-1/4 flex flex-col justify-between mb-12 lg:mb-0 pr-8"
+          >
+            <a href="#" class="flex items-center gap-2 mb-16">
+              <div
+                class="w-8 h-8 rounded-full bg-vernova-green flex items-center justify-center"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#041718"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                  <line x1="9" y1="20" x2="15" y2="20"></line>
+                  <line x1="12" y1="4" x2="12" y2="20"></line>
+                </svg>
+              </div>
+              <span
+                class="font-display font-bold text-xl tracking-widest text-white"
+                >NEXOVA</span
+              >
+            </a>
+
+            <div class="mt-auto">
+              <h4 class="text-white font-bold text-[15px] mb-3">
+                Follow us on
+              </h4>
+              <div class="flex gap-4">
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors text-lg"
+                  ><i class="bi bi-linkedin"></i
+                ></a>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors text-lg"
+                  ><i class="bi bi-twitter-x"></i
+                ></a>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors text-lg"
+                  ><i class="bi bi-instagram"></i
+                ></a>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors text-lg"
+                  ><i class="bi bi-youtube"></i
+                ></a>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition-colors text-lg"
+                  ><i class="bi bi-facebook"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:w-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+            <div class="lg:border-l lg:border-[#333] lg:pl-8 mb-8 lg:mb-0">
+              <h4 class="text-white font-bold text-[15px] mb-4">
+                IT Infrastructure
+              </h4>
+              <ul class="space-y-3 text-sm mb-8 pl-4">
+                <li><a href="#" class="footer-link">Server</a></li>
+                <li><a href="#" class="footer-link">Storage</a></li>
+                <li><a href="#" class="footer-link">Network</a></li>
+              </ul>
+              <h4 class="text-white font-bold text-[15px] mb-4">
+                DC Facilities
+              </h4>
+              <ul class="space-y-3 text-sm pl-4">
+                <li><a href="#" class="footer-link">Containment</a></li>
+                <li><a href="#" class="footer-link">UPS & PAC</a></li>
+                <li><a href="#" class="footer-link">Cabling</a></li>
+              </ul>
+            </div>
+
+            <div class="lg:border-l lg:border-[#333] lg:pl-8 mb-8 lg:mb-0">
+              <h4 class="text-white font-bold text-[15px] mb-4">Security</h4>
+              <ul class="space-y-3 text-sm mb-8 pl-4">
+                <li><a href="#" class="footer-link">Firewall</a></li>
+                <li><a href="#" class="footer-link">UTM</a></li>
+                <li><a href="#" class="footer-link">Anti Ddos</a></li>
+              </ul>
+              <h4 class="text-white font-bold text-[15px] mb-4">
+                Cloud & Observability
+              </h4>
+              <ul class="space-y-3 text-sm pl-4">
+                <li>
+                  <a href="#" class="footer-link">Monitoring (Dynatrace)</a>
+                </li>
+                <li><a href="#" class="footer-link">Cloud (AWS)</a></li>
+              </ul>
+            </div>
+
+            <div class="lg:border-l lg:border-[#333] lg:pl-8 mb-8 lg:mb-0">
+              <h4 class="text-white font-bold text-[15px] mb-4">Services</h4>
+              <ul class="space-y-3 text-sm mb-8 pl-4">
+                <li>
+                  <a href="#" class="footer-link">Installation & Config</a>
+                </li>
+                <li>
+                  <a href="#" class="footer-link">Preventive Maintenance</a>
+                </li>
+                <li>
+                  <a href="#" class="footer-link">Corrective Maintenance</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="lg:border-l lg:border-[#333] lg:pl-8">
+              <h4 class="text-white font-bold text-[15px] mb-4">Quick Links</h4>
+              <ul class="space-y-3 text-sm pl-4">
+                <li><a href="#" class="footer-link">Home</a></li>
+                <li><a href="#" class="footer-link">About Us</a></li>
+                <li><a href="#" class="footer-link">Partners</a></li>
+                <li><a href="#" class="footer-link">Our Customers</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-[#333] mb-6"></div>
+
+        <div
+          class="flex flex-col items-center justify-center text-[11px] text-gray-400 space-y-4"
+        >
+          <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+            <a href="#" class="hover:text-white transition-colors"
+              >Accessibility</a
+            >
+            <a href="#" class="hover:text-white transition-colors">Terms</a>
+            <a href="#" class="hover:text-white transition-colors">Security</a>
+            <a href="#" class="hover:text-white transition-colors">Cookies</a>
+            <a href="#" class="hover:text-white transition-colors">Privacy</a>
+            <a href="#" class="hover:text-white transition-colors"
+              >Transparency in Coverage Rules</a
+            >
+          </div>
+          <div class="text-center">
+            <p>&copy; 2026 Nexova IT Corporation. All rights reserved.</p>
+            <p class="mt-1">
+              Nexova is a registered trademark of Nexova IT Group.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <button
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        class="absolute bottom-10 right-6 lg:right-12 w-10 h-10 rounded-full bg-white text-footer-dark flex items-center justify-center hover:bg-gray-300 transition-colors shadow-lg"
+      >
+        <i class="bi bi-arrow-up text-lg font-bold"></i>
+      </button>
+    </footer>
+
+    <!-- GSAP & ScrollTrigger JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Animasi Teks Hero
+      const heroTl = gsap.timeline();
+      heroTl.to(".hero-line", {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "power4.out",
+        delay: 0.2,
+      });
+
+      // Efek Parallax Background Hero
+      gsap.to("#hero-img", {
+        yPercent: 30,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "section",
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      // Animasi Reveal saat Scroll
+      gsap.utils.toArray(".reveal-elem").forEach((elem) => {
+        gsap.to(elem, {
+          scrollTrigger: {
+            trigger: elem,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+        });
+      });
+
+      // Navbar Background ubah saat scroll
+      const nav = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          nav.classList.add(
+            "bg-vernova-dark/95",
+            "backdrop-blur-md",
+            "border-b",
+            "border-white/10",
+          );
+          nav.classList.remove(
+            "bg-gradient-to-b",
+            "from-black/80",
+            "to-transparent",
+          );
+        } else {
+          nav.classList.remove(
+            "bg-vernova-dark/95",
+            "backdrop-blur-md",
+            "border-b",
+            "border-white/10",
+          );
+          nav.classList.add(
+            "bg-gradient-to-b",
+            "from-black/80",
+            "to-transparent",
+          );
+        }
+      });
+
+      // Mobile Sidebar Toggle
+      const mobileBtn = document.getElementById("mobile-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileClose = document.getElementById("mobile-close");
+
+      mobileBtn.addEventListener("click", () => {
+        mobileMenu.classList.remove("translate-x-full");
+        mobileMenu.classList.add("translate-x-0");
+        document.body.style.overflow = "hidden";
+      });
+
+      mobileClose.addEventListener("click", () => {
+        mobileMenu.classList.add("translate-x-full");
+        mobileMenu.classList.remove("translate-x-0");
+        document.body.style.overflow = "";
+      });
+
+      // Mobile Menu Accordion Dropdown Logic
+      const mobileDropdownBtns = document.querySelectorAll(
+        ".mobile-dropdown-btn",
+      );
+
+      mobileDropdownBtns.forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const content = this.nextElementSibling;
+          const icon = this.querySelector("i");
+
+          content.classList.toggle("hidden");
+          content.classList.toggle("flex");
+
+          if (content.classList.contains("hidden")) {
+            icon.style.transform = "rotate(0deg)";
+          } else {
+            icon.style.transform = "rotate(180deg)";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
